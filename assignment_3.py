@@ -23,6 +23,9 @@ MLPATH="/Users/Pasindu/Downloads/ML_Assignment/mltool-master/classifiers"
 FEATURE_COMBINATION_FILE = "perms10.txt"
 PATH_TO_RESULTS_FILE = "/Users/Pasindu/Downloads/ML_Assignment/results1.txt"
 
+def multi_parrlle_spam_one_wrapper(args):
+   return parrlle_spam_one(*args)
+
 def parrlle_spam_one(feature_set_no, features, method, lamba):
 	oc = oct2py.Oct2Py()
 	oc.addpath(MLPATH)
@@ -41,15 +44,33 @@ def write_result(feature_set_no, features, method, lamba, accuracy, sensitivity)
 def parrlle_spam():
 	i = 0
 	jobs = []
+	all_args = []
+	pool_use = True
+
 	for x in open(FEATURE_COMBINATION_FILE):
 		feats = []
 		feats.append([int(e) for e in x.split(",")])
 		method = "logistic"
-		print feats[0]
-		p = Process(target=parrlle_spam_one, args=(i, feats[0], method, lambdanum))
-		jobs.append(p)
-		p.start()
+		# print feats[0]
+		all_args.append((i, feats[0], method, lambdanum))
+		if not pool_use:
+			p = Process(target=parrlle_spam_one, args=(i, feats[0], method, lambdanum))
+			jobs.append(p)
+			p.start()
 		i +=1
+
+	pool = Pool(2)
+
+	print all_args
+	if pool_use:
+		p = Pool(2)
+		p.map(multi_parrlle_spam_one_wrapper, all_args)
+	
+	# for i in xrange(0, len(all_args)):
+	# 	pool.apply_async(parrlle_spam_one, args=(all_args,))
+	# 	print i
+	# pool.close()
+	# pool.join()
 
 	# Wait for everyone to finish
 	for job in jobs:
