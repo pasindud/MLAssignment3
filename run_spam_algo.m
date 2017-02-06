@@ -2,7 +2,7 @@
 ## Author: Neil J. Hurley <neil.hurley.slprog@Neils-MacBook-Air-2.local>
 ## Created: 2015-01-30
 
-function [accuracy,sensitivity] = run_spam_algo (method,lambda,features)
+function [accuracy,sensitivity, features] = run_spam_algo (method,lambda,features)
 
 Data = load('spam.data');
 
@@ -16,7 +16,7 @@ Data = load('spam.data');
 %method = "svm";  % use "ridge" "logistic" or "svm"
 %lambda = 1.0;  % regularisation weight -- doesn't work for logistic
 
-
+% disp ("The value of features is:"), disp (features)
 
 X = Data(:,features);  % Each row of X is a feature vector 
 
