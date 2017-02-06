@@ -40,15 +40,20 @@ def write_result(feature_set_no, features, method, lamba, accuracy, sensitivity)
 
 def parrlle_spam():
 	i = 0
+	jobs = []
 	for x in open(FEATURE_COMBINATION_FILE):
 		feats = []
 		feats.append([int(e) for e in x.split(",")])
 		method = "logistic"
 		print feats[0]
 		p = Process(target=parrlle_spam_one, args=(i, feats[0], method, lambdanum))
+		jobs.append(p)
 		p.start()
-		p.join()
 		i +=1
+
+	# Wait for everyone to finish
+	for job in jobs:
+		job.join()
 
 def main(argv):
 	parrlle_spam()
