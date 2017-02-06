@@ -32,9 +32,10 @@ def parrlle_spam_one(feature_set_no, features, method, lamba):
 def write_result(feature_set_no, features, method, lamba, accuracy, sensitivity):
 	args = [feature_set_no, features, method, lamba, accuracy, sensitivity]
 	args = [str(e) for e in args]
-	print args
+	output = "\t".join(args) + "\n"
+	print output
 	f = open(PATH_TO_RESULTS_FILE, 'ab')
-	f.write("\t\n".join(args))
+	f.write(output)
 	f.close()
 
 def parrlle_spam():
