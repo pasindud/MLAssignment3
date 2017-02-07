@@ -6,7 +6,7 @@ FILENAME = "example_feature_results.txt"
 FILENAME = "results_ubuntu_12_all_methods.txt"
 FILENAME = "results_ubuntu_12_all_methods.txt"
 FILENAME2 = "results_ubuntu_11_all_methods_final_1.txt" 
-FILENAME = "final_all_results.txt" 
+FILENAME = "final_all_results.tsv" 
 
 features = [1, 2, 3,4,5,6,7,8,9,10,
                         11,12,13,14,15,16,17,18,19,20,
@@ -14,7 +14,6 @@ features = [1, 2, 3,4,5,6,7,8,9,10,
                         31,32,33,34,35,36,37,38,39,40,
                         41,42,43,44,45,46,47,48,49,50,
                         51,52,53,54,55,56,57];
-
 
 def writer(fname, c):
 	f = open(fname, "w")
@@ -61,11 +60,20 @@ def main(argv):
 			else:
 				print "nothing for ", d
 
-	writer("ridge_scores.txt", score_features(data_rigde))
-	writer("logistic_scores.txt", score_features(data_logistic))
-	writer("svm_scores.txt", score_features(data_svm))
-
+	# writer("ridge_scores.txt", score_features(data_rigde))
+	# writer("logistic_scores.txt", score_features(data_logistic))
+	# writer("svm_scores.txt", score_features(data_svm))
+	write_data_files("rigde", data_rigde)
+	write_data_files("logistic", data_logistic)
+	write_data_files("svm", data_svm)
 	# print a_set
+
+def write_data_files(fname, results):
+	# output = "features\tlamda\taccuracy\tsensitivity\tclassibias"
+	output = "\t".join(["features","accuracy", "lamda", "sensitivity", "classibias"])  +"\n"
+	for  point in results:
+		output += "\t".join((str(point['features']).replace(",", " "),str( point['accuracy']), str(point['lamda']), str(point['sensitivity']), str(point['classibias']))  ) + "\n"
+	writer("final_output/results_" + fname + ".tsv", output)
 
 def score_features(results):
 	features_scores = {}
