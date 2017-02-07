@@ -60,9 +60,9 @@ def main(argv):
 			else:
 				print "nothing for ", d
 
-	# writer("ridge_scores.txt", score_features(data_rigde))
-	# writer("logistic_scores.txt", score_features(data_logistic))
-	# writer("svm_scores.txt", score_features(data_svm))
+	writer("final_output/ridge_scores.tsv", score_features(data_rigde))
+	writer("final_output/logistic_scores.tsv", score_features(data_logistic))
+	writer("final_output/svm_scores.tsv", score_features(data_svm))
 	write_data_files("rigde", data_rigde)
 	write_data_files("logistic", data_logistic)
 	write_data_files("svm", data_svm)
