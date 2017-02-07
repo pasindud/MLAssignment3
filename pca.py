@@ -2,18 +2,18 @@
 import sys
 import numpy as np
 # from sklearn.decomposition import PCA as PCAA
-# from matplotlib.mlab import PCA
+from matplotlib.mlab import PCA
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 from sklearn.cluster import KMeans
 from sklearn.metrics import silhouette_samples, silhouette_score
 
-from sklearn.decomposition import PCA
+# from sklearn.decomposition import PCA
 
 def main(argv):
 	data = []
 	NUM = 0
-	for line in open("/Users/Pasindu/Downloads/ML_Assignment/spam.data"):
+	for line in open("spam.data"):
 		seg = line.rstrip().split(",")
 		a = []
 		for b in seg:
@@ -25,23 +25,6 @@ def main(argv):
 	ax = Axes3D(fig1) # use the plotting figure to create a Axis3D object.
 
 	X = np.array(data)
-	# print NUM
-	# pca = PCA(n_components=NUM)
-	# pca.fit(X)
-	# X_new = pca.transform(X)
-	# print(len(X[0]))
-	# print(len(X_new[0]))
-	# print (X_new)
-
-	pca  = PCA(n_components='mle')
-	reduced = pca.fit_transform(X)
-	for k in xrange(2, NUM):
-	    kmeans = KMeans(n_clusters=k)
-	    clusterLabels = kmeans.fit_predict(reduced)
-	    silhouetteAvg = silhouette_score(reduced, clusterLabels)
-	    print "silhouette score for k = " + str(k) + ": " + str(silhouetteAvg)
-
-	exit(0)
 	newData  = PCA(X)
 	proj = newData.project(X)
 	print(newData.numcols)
@@ -53,12 +36,6 @@ def main(argv):
 	colrs = kmeans.fit_predict(X)
 	col = np.arange(30)
 
-	centroids = kmeans.cluster_centers_
-	for cluster_id in range(num_of_clusters):
-		dist = np.sum(X - centroids[cluster_id, :] ** 2, 1)
-		print cluster_id
-		sortid = np.argsort(dist)
-		print "cluster_id - ", cluster_id, "sortid ", sortid[0:4550], len(sortid)
 
 	# exit(0)
 	x = []
@@ -74,15 +51,13 @@ def main(argv):
 	print len(x)
 	print len(y)
 	print len(z)
-	exit(0)
 	for i,xi in enumerate(x):
 		k =+1
-		# print k, " - " , x[i],y[i],z[i]
 		ax.scatter(x[i],y[i],z[i])
 
-	ax1.plot(newData[:, 0], newData[:, 1], '.', mfc=clr1, mec=clr1)
+	ax.plot(newData[:, 0], newData[:, 1], '.', mfc=clr1, mec=clr1)
 
-	# plt.show()
+	plt.show()
 
 
 
